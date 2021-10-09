@@ -1,5 +1,5 @@
 {
-"update_url": "https://clients2.google.com/service/update2/crx",
+  "update_url": "https://clients2.google.com/service/update2/crx",
 
   "name": "Blocknative ETH Gas Estimator",
   "description": "Get into the next block without overpaying. Accurate Ethereum gas estimations.",

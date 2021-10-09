@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
   function r(r, e) {
     function n() {
@@ -12,7 +12,7 @@
     return typeof t == 'function';
   }
   function s(t) {
-    setTimeout(function() {
+    setTimeout(function () {
       throw t;
     }, 0);
   }
@@ -20,7 +20,7 @@
     return t !== null && typeof t == 'object';
   }
   function f(t) {
-    return t.reduce(function(t, r) {
+    return t.reduce(function (t, r) {
       return t.concat(r instanceof a ? r.errors : r);
     }, []);
   }
@@ -33,8 +33,8 @@
     } else if (t.length === 1) {
       return t[0];
     } else {
-      return function(r) {
-        return t.reduce(function(t, r) {
+      return function (r) {
+        return t.reduce(function (t, r) {
           return r(t);
         }, r);
       };
@@ -51,9 +51,9 @@
   }
   function A(t) {
     if (t) {
-      return (function(t) {
-        return new _(function(r) {
-          return t.schedule(function() {
+      return (function (t) {
+        return new _(function (r) {
+          return t.schedule(function () {
             return r.complete();
           });
         });
@@ -66,11 +66,11 @@
     return t && typeof t.schedule == 'function';
   }
   function V(t, r) {
-    return new _(function(e) {
+    return new _(function (e) {
       var n = new p();
       var i = 0;
       n.add(
-        r.schedule(function() {
+        r.schedule(function () {
           if (i === t.length) {
             e.complete();
           } else {
@@ -79,7 +79,7 @@
               n.add(this.schedule());
             }
           }
-        })
+        }),
       );
       return n;
     });
@@ -106,10 +106,10 @@
   }
   function F() {}
   function R(t, r) {
-    return function(e) {
+    return function (e) {
       if (typeof t != 'function') {
         throw new TypeError(
-          'argument is not a function. Are you looking for `mapTo()`?'
+          'argument is not a function. Are you looking for `mapTo()`?',
         );
       }
       return e.lift(new U(t, r));
@@ -142,75 +142,75 @@
   function Q(t, r) {
     if (t != null) {
       if (
-        (function(t) {
+        (function (t) {
           return t && typeof t[y] == 'function';
         })(t)
       ) {
-        return (function(t, r) {
-          return new _(function(e) {
+        return (function (t, r) {
+          return new _(function (e) {
             var n = new p();
             n.add(
-              r.schedule(function() {
+              r.schedule(function () {
                 var i = t[y]();
                 n.add(
                   i.subscribe({
-                    next: function(t) {
+                    next: function (t) {
                       n.add(
-                        r.schedule(function() {
+                        r.schedule(function () {
                           return e.next(t);
-                        })
+                        }),
                       );
                     },
-                    error: function(t) {
+                    error: function (t) {
                       n.add(
-                        r.schedule(function() {
+                        r.schedule(function () {
                           return e.error(t);
-                        })
+                        }),
                       );
                     },
-                    complete: function() {
+                    complete: function () {
                       n.add(
-                        r.schedule(function() {
+                        r.schedule(function () {
                           return e.complete();
-                        })
+                        }),
                       );
                     },
-                  })
+                  }),
                 );
-              })
+              }),
             );
             return n;
           });
         })(t, r);
       }
       if ($(t)) {
-        return (function(t, r) {
-          return new _(function(e) {
+        return (function (t, r) {
+          return new _(function (e) {
             var n = new p();
             n.add(
-              r.schedule(function() {
+              r.schedule(function () {
                 return t.then(
-                  function(t) {
+                  function (t) {
                     n.add(
-                      r.schedule(function() {
+                      r.schedule(function () {
                         e.next(t);
                         n.add(
-                          r.schedule(function() {
+                          r.schedule(function () {
                             return e.complete();
-                          })
+                          }),
                         );
-                      })
+                      }),
                     );
                   },
-                  function(t) {
+                  function (t) {
                     n.add(
-                      r.schedule(function() {
+                      r.schedule(function () {
                         return e.error(t);
-                      })
+                      }),
                     );
-                  }
+                  },
                 );
-              })
+              }),
             );
             return n;
           });
@@ -220,28 +220,28 @@
         return V(t, r);
       }
       if (
-        (function(t) {
+        (function (t) {
           return t && typeof t[q] == 'function';
         })(t) ||
         typeof t == 'string'
       ) {
-        return (function(t, r) {
+        return (function (t, r) {
           if (!t) {
             throw new Error('Iterable cannot be null');
           }
-          return new _(function(e) {
+          return new _(function (e) {
             var n;
             var i = new p();
-            i.add(function() {
+            i.add(function () {
               if (n && typeof n.return == 'function') {
                 n.return();
               }
             });
             i.add(
-              r.schedule(function() {
+              r.schedule(function () {
                 n = t[q]();
                 i.add(
-                  r.schedule(function() {
+                  r.schedule(function () {
                     if (!e.closed) {
                       var t;
                       var r;
@@ -260,9 +260,9 @@
                         this.schedule();
                       }
                     }
-                  })
+                  }),
                 );
-              })
+              }),
             );
             return i;
           });
@@ -294,22 +294,22 @@
       e = Number.POSITIVE_INFINITY;
     }
     if (typeof r == 'function') {
-      return function(n) {
+      return function (n) {
         return n.pipe(
-          rt(function(e, n) {
+          rt(function (e, n) {
             return W(t(e, n)).pipe(
-              R(function(t, i) {
+              R(function (t, i) {
                 return r(e, t, n, i);
-              })
+              }),
             );
-          }, e)
+          }, e),
         );
       };
     } else {
       if (typeof r == 'number') {
         e = r;
       }
-      return function(r) {
+      return function (r) {
         return r.lift(new et(t, e));
       };
     }
@@ -331,7 +331,7 @@
     this.schedule({ subscriber: r, counter: e + 1, period: n }, n);
   }
   function ut(t, r) {
-    return function(e) {
+    return function (e) {
       return e.lift(new ct(t, r));
     };
   }
@@ -357,12 +357,12 @@
     if (e === 0) {
       throw new Error('list of properties cannot be empty.');
     }
-    return function(r) {
+    return function (r) {
       return R(mt(t, e))(r);
     };
   }
   function mt(t, r) {
-    return function(e) {
+    return function (e) {
       var n = e;
       for (var i = 0; i < r; i++) {
         var o = n != null ? n[t[i]] : void 0;
@@ -376,19 +376,19 @@
   }
   function St(t, r) {
     if (typeof r == 'function') {
-      return function(e) {
+      return function (e) {
         return e.pipe(
-          St(function(e, n) {
+          St(function (e, n) {
             return W(t(e, n)).pipe(
-              R(function(t, i) {
+              R(function (t, i) {
                 return r(e, t, n, i);
-              })
+              }),
             );
-          })
+          }),
         );
       };
     } else {
-      return function(r) {
+      return function (r) {
         return r.lift(new Et(t));
       };
     }
@@ -398,7 +398,7 @@
     for (var r = 0; r < arguments.length; r++) {
       t[r] = arguments[r];
     }
-    return function(r) {
+    return function (r) {
       var e;
       if (typeof t[t.length - 1] == 'function') {
         e = t.pop();
@@ -411,7 +411,7 @@
       r = {};
     }
     var n = r.selector;
-    var i = (function(t, r) {
+    var i = (function (t, r) {
       var e = {};
       for (var n in t) {
         if (Object.prototype.hasOwnProperty.call(t, n) && r.indexOf(n) < 0) {
@@ -431,14 +431,14 @@
       }
       return e;
     })(r, ['selector']);
-    return new _(function(r) {
+    return new _(function (r) {
       var o;
       var s = new AbortController();
       var u = s.signal;
       var c = true;
       var h = false;
       var a = new p();
-      a.add(function() {
+      a.add(function () {
         h = true;
         if (c) {
           s.abort();
@@ -450,13 +450,13 @@
             s.abort();
           } else {
             var f = i.signal;
-            var l = function() {
+            var l = function () {
               if (!u.aborted) {
                 s.abort();
               }
             };
             f.addEventListener('abort', l);
-            a.add(function() {
+            a.add(function () {
               return f.removeEventListener('abort', l);
             });
           }
@@ -466,24 +466,24 @@
         o = { signal: u };
       }
       fetch(t, o)
-        .then(function(t) {
+        .then(function (t) {
           if (n) {
             a.add(
               W(n(t)).subscribe(
-                function(t) {
+                function (t) {
                   return r.next(t);
                 },
-                function(t) {
+                function (t) {
                   c = false;
                   if (!h) {
                     r.error(t);
                   }
                 },
-                function() {
+                function () {
                   c = false;
                   r.complete();
-                }
-              )
+                },
+              ),
             );
           } else {
             c = false;
@@ -491,7 +491,7 @@
             r.complete();
           }
         })
-        .catch(function(t) {
+        .catch(function (t) {
           c = false;
           if (!h) {
             r.error(t);
@@ -500,14 +500,14 @@
       return a;
     });
   }
-  var t = function(r, e) {
+  var t = function (r, e) {
     return (t =
       Object.setPrototypeOf ||
       ({ __proto__: [] } instanceof Array &&
-        function(t, r) {
+        function (t, r) {
           t.__proto__ = r;
         }) ||
-      function(t, r) {
+      function (t, r) {
         for (var e in r) {
           if (r.hasOwnProperty(e)) {
             t[e] = r[e];
@@ -515,10 +515,10 @@
         }
       })(r, e);
   };
-  var e = function() {
+  var e = function () {
     return (e =
       Object.assign ||
-      function(t) {
+      function (t) {
         var r;
         var e = 1;
         for (var n = arguments.length; e < n; e++) {
@@ -546,28 +546,28 @@
   };
   var u = {
     closed: true,
-    next: function(t) {},
-    error: function(t) {
+    next: function (t) {},
+    error: function (t) {
       if (o.useDeprecatedSynchronousErrorHandling) {
         throw t;
       }
       s(t);
     },
-    complete: function() {},
+    complete: function () {},
   };
   var c =
     Array.isArray ||
-    function(t) {
+    function (t) {
       return t && typeof t.length == 'number';
     };
-  var a = (function() {
+  var a = (function () {
     function t(t) {
       Error.call(this);
       this.message = t
         ? t.length +
           ' errors occurred during unsubscription:\n' +
           t
-            .map(function(t, r) {
+            .map(function (t, r) {
               return r + 1 + ') ' + t.toString();
             })
             .join('\n  ')
@@ -579,7 +579,7 @@
     t.prototype = Object.create(Error.prototype);
     return t;
   })();
-  var p = (function() {
+  var p = (function () {
     function t(t) {
       this.closed = false;
       this._parentOrParents = null;
@@ -589,7 +589,7 @@
         this._unsubscribe = t;
       }
     }
-    t.prototype.unsubscribe = function() {
+    t.prototype.unsubscribe = function () {
       var r;
       if (!this.closed) {
         var e = this;
@@ -640,7 +640,7 @@
         }
       }
     };
-    t.prototype.add = function(r) {
+    t.prototype.add = function (r) {
       var e = r;
       if (!r) {
         return t.EMPTY;
@@ -663,7 +663,7 @@
           break;
         default:
           throw new Error(
-            'unrecognized teardown ' + r + ' added to Subscription.'
+            'unrecognized teardown ' + r + ' added to Subscription.',
           );
       }
       var i = e._parentOrParents;
@@ -688,7 +688,7 @@
       }
       return e;
     };
-    t.prototype.remove = function(t) {
+    t.prototype.remove = function (t) {
       var r = this._subscriptions;
       if (r) {
         var e = r.indexOf(t);
@@ -697,27 +697,29 @@
         }
       }
     };
-    t.EMPTY = (function(t) {
+    t.EMPTY = (function (t) {
       t.closed = true;
       return t;
     })(new t());
     return t;
   })();
-  var l = (function() {
+  var l = (function () {
     if (typeof Symbol == 'function') {
       return Symbol('rxSubscriber');
     } else {
       return '@@rxSubscriber_' + Math.random();
     }
   })();
-  var d = (function() {
+  var d = (function () {
     function e(r, n, i) {
       var o = p.call(this) || this;
-      switch (((o.syncErrorValue = null),
-      (o.syncErrorThrown = false),
-      (o.syncErrorThrowable = false),
-      (o.isStopped = false),
-      arguments.length)) {
+      switch (
+        ((o.syncErrorValue = null),
+        (o.syncErrorThrown = false),
+        (o.syncErrorThrowable = false),
+        (o.isStopped = false),
+        arguments.length)
+      ) {
         case 0:
           o.destination = u;
           break;
@@ -744,49 +746,49 @@
       return o;
     }
     r(e, p);
-    e.prototype[l] = function() {
+    e.prototype[l] = function () {
       return this;
     };
-    e.create = function(t, r, n) {
+    e.create = function (t, r, n) {
       var i = new e(t, r, n);
       i.syncErrorThrowable = false;
       return i;
     };
-    e.prototype.next = function(t) {
+    e.prototype.next = function (t) {
       if (!this.isStopped) {
         this._next(t);
       }
     };
-    e.prototype.error = function(t) {
+    e.prototype.error = function (t) {
       if (!this.isStopped) {
         this.isStopped = true;
         this._error(t);
       }
     };
-    e.prototype.complete = function() {
+    e.prototype.complete = function () {
       if (!this.isStopped) {
         this.isStopped = true;
         this._complete();
       }
     };
-    e.prototype.unsubscribe = function() {
+    e.prototype.unsubscribe = function () {
       if (!this.closed) {
         this.isStopped = true;
         p.prototype.unsubscribe.call(this);
       }
     };
-    e.prototype._next = function(t) {
+    e.prototype._next = function (t) {
       this.destination.next(t);
     };
-    e.prototype._error = function(t) {
+    e.prototype._error = function (t) {
       this.destination.error(t);
       this.unsubscribe();
     };
-    e.prototype._complete = function() {
+    e.prototype._complete = function () {
       this.destination.complete();
       this.unsubscribe();
     };
-    e.prototype._unsubscribeAndRecycle = function() {
+    e.prototype._unsubscribeAndRecycle = function () {
       var t = this._parentOrParents;
       this._parentOrParents = null;
       this.unsubscribe();
@@ -797,7 +799,7 @@
     };
     return e;
   })();
-  var b = (function() {
+  var b = (function () {
     function e(r, e, i, o) {
       var s;
       var c = d.call(this) || this;
@@ -823,7 +825,7 @@
       return c;
     }
     r(e, d);
-    e.prototype.next = function(t) {
+    e.prototype.next = function (t) {
       if (!this.isStopped && this._next) {
         var r = this._parentSubscriber;
         if (o.useDeprecatedSynchronousErrorHandling && r.syncErrorThrowable) {
@@ -835,7 +837,7 @@
         }
       }
     };
-    e.prototype.error = function(t) {
+    e.prototype.error = function (t) {
       if (!this.isStopped) {
         var r = this._parentSubscriber;
         var e = o.useDeprecatedSynchronousErrorHandling;
@@ -864,12 +866,12 @@
         }
       }
     };
-    e.prototype.complete = function() {
+    e.prototype.complete = function () {
       var t = this;
       if (!this.isStopped) {
         var r = this._parentSubscriber;
         if (this._complete) {
-          var e = function() {
+          var e = function () {
             return t._complete.call(t._context);
           };
           if (o.useDeprecatedSynchronousErrorHandling && r.syncErrorThrowable) {
@@ -884,7 +886,7 @@
         }
       }
     };
-    e.prototype.__tryOrUnsub = function(t, r) {
+    e.prototype.__tryOrUnsub = function (t, r) {
       try {
         t.call(this._context, r);
       } catch (t) {
@@ -895,7 +897,7 @@
         s(t);
       }
     };
-    e.prototype.__tryOrSetError = function(t, r, e) {
+    e.prototype.__tryOrSetError = function (t, r, e) {
       if (!o.useDeprecatedSynchronousErrorHandling) {
         throw new Error('bad call');
       }
@@ -913,7 +915,7 @@
       }
       return false;
     };
-    e.prototype._unsubscribe = function() {
+    e.prototype._unsubscribe = function () {
       var t = this._parentSubscriber;
       this._context = null;
       this._parentSubscriber = null;
@@ -922,22 +924,22 @@
     return e;
   })();
   var y = (typeof Symbol == 'function' && Symbol.observable) || '@@observable';
-  var _ = (function() {
+  var _ = (function () {
     function t(t) {
       this._isScalar = false;
       if (t) {
         this._subscribe = t;
       }
     }
-    t.prototype.lift = function(r) {
+    t.prototype.lift = function (r) {
       var e = new t();
       e.source = this;
       e.operator = r;
       return e;
     };
-    t.prototype.subscribe = function(t, r, e) {
+    t.prototype.subscribe = function (t, r, e) {
       var n = this.operator;
-      var i = (function(t, r, e) {
+      var i = (function (t, r, e) {
         if (t) {
           if (t instanceof d) {
             return t;
@@ -957,9 +959,9 @@
       } else {
         i.add(
           this.source ||
-          (o.useDeprecatedSynchronousErrorHandling && !i.syncErrorThrowable)
+            (o.useDeprecatedSynchronousErrorHandling && !i.syncErrorThrowable)
             ? this._subscribe(i)
-            : this._trySubscribe(i)
+            : this._trySubscribe(i),
         );
       }
       if (
@@ -971,7 +973,7 @@
       }
       return i;
     };
-    t.prototype._trySubscribe = function(t) {
+    t.prototype._trySubscribe = function (t) {
       try {
         return this._subscribe(t);
       } catch (r) {
@@ -980,7 +982,7 @@
           t.syncErrorValue = r;
         }
         if (
-          !(function(t) {
+          !(function (t) {
             while (t) {
               var r = t;
               var e = r.closed;
@@ -1000,11 +1002,11 @@
         }
       }
     };
-    t.prototype.forEach = function(t, r) {
+    t.prototype.forEach = function (t, r) {
       var e = this;
-      return new (r = m(r))(function(r, n) {
+      return new (r = m(r))(function (r, n) {
         var i = e.subscribe(
-          function(r) {
+          function (r) {
             try {
               t(r);
             } catch (t) {
@@ -1015,18 +1017,18 @@
             }
           },
           n,
-          r
+          r,
         );
       });
     };
-    t.prototype._subscribe = function(t) {
+    t.prototype._subscribe = function (t) {
       var r = this.source;
       return r && r.subscribe(t);
     };
-    t.prototype[y] = function() {
+    t.prototype[y] = function () {
       return this;
     };
-    t.prototype.pipe = function() {
+    t.prototype.pipe = function () {
       var t = [];
       for (var r = 0; r < arguments.length; r++) {
         t[r] = arguments[r];
@@ -1037,29 +1039,29 @@
         return w(t)(this);
       }
     };
-    t.prototype.toPromise = function(t) {
+    t.prototype.toPromise = function (t) {
       var r = this;
-      return new (t = m(t))(function(t, e) {
+      return new (t = m(t))(function (t, e) {
         var n;
         r.subscribe(
-          function(t) {
+          function (t) {
             return (n = t);
           },
-          function(t) {
+          function (t) {
             return e(t);
           },
-          function() {
+          function () {
             return t(n);
-          }
+          },
         );
       });
     };
-    t.create = function(r) {
+    t.create = function (r) {
       return new t(r);
     };
     return t;
   })();
-  var x = (function() {
+  var x = (function () {
     function t() {
       Error.call(this);
       this.message = 'object unsubscribed';
@@ -1069,7 +1071,7 @@
     t.prototype = Object.create(Error.prototype);
     return t;
   })();
-  var g = (function() {
+  var g = (function () {
     function e(r, e) {
       var n = p.call(this) || this;
       n.subject = r;
@@ -1078,7 +1080,7 @@
       return n;
     }
     r(e, p);
-    e.prototype.unsubscribe = function() {
+    e.prototype.unsubscribe = function () {
       if (!this.closed) {
         this.closed = true;
         var t = this.subject;
@@ -1094,7 +1096,7 @@
     };
     return e;
   })();
-  var S = (function() {
+  var S = (function () {
     function e(r) {
       var e = d.call(this, r) || this;
       e.destination = r;
@@ -1103,7 +1105,7 @@
     r(e, d);
     return e;
   })();
-  var E = (function() {
+  var E = (function () {
     function e() {
       var r = _.call(this) || this;
       r.observers = [];
@@ -1114,15 +1116,15 @@
       return r;
     }
     r(e, _);
-    e.prototype[l] = function() {
+    e.prototype[l] = function () {
       return new S(this);
     };
-    e.prototype.lift = function(t) {
+    e.prototype.lift = function (t) {
       var r = new O(this, this);
       r.operator = t;
       return r;
     };
-    e.prototype.next = function(t) {
+    e.prototype.next = function (t) {
       if (this.closed) {
         throw new x();
       }
@@ -1135,7 +1137,7 @@
         }
       }
     };
-    e.prototype.error = function(t) {
+    e.prototype.error = function (t) {
       if (this.closed) {
         throw new x();
       }
@@ -1150,7 +1152,7 @@
       }
       this.observers.length = 0;
     };
-    e.prototype.complete = function() {
+    e.prototype.complete = function () {
       if (this.closed) {
         throw new x();
       }
@@ -1163,18 +1165,18 @@
       }
       this.observers.length = 0;
     };
-    e.prototype.unsubscribe = function() {
+    e.prototype.unsubscribe = function () {
       this.isStopped = true;
       this.closed = true;
       this.observers = null;
     };
-    e.prototype._trySubscribe = function(r) {
+    e.prototype._trySubscribe = function (r) {
       if (this.closed) {
         throw new x();
       }
       return _.prototype._trySubscribe.call(this, r);
     };
-    e.prototype._subscribe = function(t) {
+    e.prototype._subscribe = function (t) {
       if (this.closed) {
         throw new x();
       }
@@ -1189,17 +1191,17 @@
         return new g(this, t);
       }
     };
-    e.prototype.asObservable = function() {
+    e.prototype.asObservable = function () {
       var t = new _();
       t.source = this;
       return t;
     };
-    e.create = function(t, r) {
+    e.create = function (t, r) {
       return new O(t, r);
     };
     return e;
   })();
-  var O = (function() {
+  var O = (function () {
     function e(r, e) {
       var n = E.call(this) || this;
       n.destination = r;
@@ -1207,25 +1209,25 @@
       return n;
     }
     r(e, E);
-    e.prototype.next = function(t) {
+    e.prototype.next = function (t) {
       var r = this.destination;
       if (r && r.next) {
         r.next(t);
       }
     };
-    e.prototype.error = function(t) {
+    e.prototype.error = function (t) {
       var r = this.destination;
       if (r && r.error) {
         this.destination.error(t);
       }
     };
-    e.prototype.complete = function() {
+    e.prototype.complete = function () {
       var t = this.destination;
       if (t && t.complete) {
         this.destination.complete();
       }
     };
-    e.prototype._subscribe = function(t) {
+    e.prototype._subscribe = function (t) {
       if (this.source) {
         return this.source.subscribe(t);
       } else {
@@ -1234,7 +1236,7 @@
     };
     return e;
   })();
-  var j = (function() {
+  var j = (function () {
     function e(r) {
       var e = E.call(this) || this;
       e._value = r;
@@ -1242,20 +1244,20 @@
     }
     r(e, E);
     Object.defineProperty(e.prototype, 'value', {
-      get: function() {
+      get: function () {
         return this.getValue();
       },
       enumerable: true,
       configurable: true,
     });
-    e.prototype._subscribe = function(r) {
+    e.prototype._subscribe = function (r) {
       var e = E.prototype._subscribe.call(this, r);
       if (e && !e.closed) {
         r.next(this._value);
       }
       return e;
     };
-    e.prototype.getValue = function() {
+    e.prototype.getValue = function () {
       if (this.hasError) {
         throw this.thrownError;
       }
@@ -1264,12 +1266,12 @@
       }
       return this._value;
     };
-    e.prototype.next = function(r) {
+    e.prototype.next = function (r) {
       E.prototype.next.call(this, (this._value = r));
     };
     return e;
   })();
-  var P = (function() {
+  var P = (function () {
     function e(r, e) {
       var n = t.call(this, r, e) || this;
       n.scheduler = r;
@@ -1277,18 +1279,18 @@
       n.pending = false;
       return n;
     }
-    var t = (function() {
+    var t = (function () {
       function e(r, e) {
         return p.call(this) || this;
       }
       r(e, p);
-      e.prototype.schedule = function(t, r) {
+      e.prototype.schedule = function (t, r) {
         return this;
       };
       return e;
     })();
     r(e, t);
-    e.prototype.schedule = function(t, r) {
+    e.prototype.schedule = function (t, r) {
       if (r === void 0) {
         r = 0;
       }
@@ -1306,13 +1308,13 @@
       this.id = this.id || this.requestAsyncId(n, this.id, r);
       return this;
     };
-    e.prototype.requestAsyncId = function(t, r, e) {
+    e.prototype.requestAsyncId = function (t, r, e) {
       if (e === void 0) {
         e = 0;
       }
       return setInterval(t.flush.bind(t, this), e);
     };
-    e.prototype.recycleAsyncId = function(t, r, e) {
+    e.prototype.recycleAsyncId = function (t, r, e) {
       if (e === void 0) {
         e = 0;
       }
@@ -1321,7 +1323,7 @@
       }
       clearInterval(r);
     };
-    e.prototype.execute = function(t, r) {
+    e.prototype.execute = function (t, r) {
       if (this.closed) {
         return new Error('executing a cancelled action');
       }
@@ -1334,7 +1336,7 @@
         this.id = this.recycleAsyncId(this.scheduler, this.id, null);
       }
     };
-    e.prototype._execute = function(t, r) {
+    e.prototype._execute = function (t, r) {
       var e = false;
       var n = void 0;
       try {
@@ -1348,7 +1350,7 @@
         return n;
       }
     };
-    e.prototype._unsubscribe = function() {
+    e.prototype._unsubscribe = function () {
       var t = this.id;
       var r = this.scheduler;
       var e = r.actions;
@@ -1367,7 +1369,7 @@
     };
     return e;
   })();
-  var T = (function() {
+  var T = (function () {
     function t(r, e) {
       if (e === void 0) {
         e = t.now;
@@ -1375,24 +1377,24 @@
       this.SchedulerAction = r;
       this.now = e;
     }
-    t.prototype.schedule = function(t, r, e) {
+    t.prototype.schedule = function (t, r, e) {
       if (r === void 0) {
         r = 0;
       }
       return new this.SchedulerAction(this, t).schedule(e, r);
     };
-    t.now = function() {
+    t.now = function () {
       return Date.now();
     };
     return t;
   })();
-  var I = (function() {
+  var I = (function () {
     function e(r, n) {
       if (n === void 0) {
         n = T.now;
       }
       var i =
-        T.call(this, r, function() {
+        T.call(this, r, function () {
           if (e.delegate && e.delegate !== i) {
             return e.delegate.now();
           } else {
@@ -1405,7 +1407,7 @@
       return i;
     }
     r(e, T);
-    e.prototype.schedule = function(r, n, i) {
+    e.prototype.schedule = function (r, n, i) {
       if (n === void 0) {
         n = 0;
       }
@@ -1415,7 +1417,7 @@
         return T.prototype.schedule.call(this, r, n, i);
       }
     };
-    e.prototype.flush = function(t) {
+    e.prototype.flush = function (t) {
       var r = this.actions;
       if (this.active) {
         r.push(t);
@@ -1438,11 +1440,11 @@
     };
     return e;
   })();
-  var N = new _(function(t) {
+  var N = new _(function (t) {
     return t.complete();
   });
-  var k = function(t) {
-    return function(r) {
+  var k = function (t) {
+    return function (r) {
       var e = 0;
       for (var n = t.length; e < n && !r.closed; e++) {
         r.next(t[e]);
@@ -1451,17 +1453,17 @@
     };
   };
   var Y = new I(P);
-  var U = (function() {
+  var U = (function () {
     function t(t, r) {
       this.project = t;
       this.thisArg = r;
     }
-    t.prototype.call = function(t, r) {
+    t.prototype.call = function (t, r) {
       return r.subscribe(new B(t, this.project, this.thisArg));
     };
     return t;
   })();
-  var B = (function() {
+  var B = (function () {
     function e(r, e, n) {
       var i = d.call(this, r) || this;
       i.project = e;
@@ -1470,7 +1472,7 @@
       return i;
     }
     r(e, d);
-    e.prototype._next = function(t) {
+    e.prototype._next = function (t) {
       var r;
       try {
         r = this.project.call(this.thisArg, t, this.count++);
@@ -1482,23 +1484,23 @@
     };
     return e;
   })();
-  var M = (function() {
+  var M = (function () {
     function e() {
       return (d !== null && d.apply(this, arguments)) || this;
     }
     r(e, d);
-    e.prototype.notifyNext = function(t, r, e, n, i) {
+    e.prototype.notifyNext = function (t, r, e, n, i) {
       this.destination.next(r);
     };
-    e.prototype.notifyError = function(t, r) {
+    e.prototype.notifyError = function (t, r) {
       this.destination.error(t);
     };
-    e.prototype.notifyComplete = function(t) {
+    e.prototype.notifyComplete = function (t) {
       this.destination.complete();
     };
     return e;
   })();
-  var G = (function() {
+  var G = (function () {
     function e(r, e, n) {
       var i = d.call(this) || this;
       i.parent = r;
@@ -1508,37 +1510,37 @@
       return i;
     }
     r(e, d);
-    e.prototype._next = function(t) {
+    e.prototype._next = function (t) {
       this.parent.notifyNext(
         this.outerValue,
         t,
         this.outerIndex,
         this.index++,
-        this
+        this,
       );
     };
-    e.prototype._error = function(t) {
+    e.prototype._error = function (t) {
       this.parent.notifyError(t, this);
       this.unsubscribe();
     };
-    e.prototype._complete = function() {
+    e.prototype._complete = function () {
       this.parent.notifyComplete(this);
       this.unsubscribe();
     };
     return e;
   })();
   var q = L();
-  var z = function(t) {
+  var z = function (t) {
     return t && typeof t.length == 'number' && typeof t != 'function';
   };
-  var K = function(t) {
+  var K = function (t) {
     if (t && typeof t[y] == 'function') {
       n = t;
-      return function(t) {
+      return function (t) {
         var r = n[y]();
         if (typeof r.subscribe != 'function') {
           throw new TypeError(
-            'Provided object does not correctly implement Symbol.observable'
+            'Provided object does not correctly implement Symbol.observable',
           );
         }
         return r.subscribe(t);
@@ -1549,26 +1551,24 @@
     }
     if ($(t)) {
       e = t;
-      return function(t) {
-        e
-          .then(
-            function(r) {
-              if (!t.closed) {
-                t.next(r);
-                t.complete();
-              }
-            },
-            function(r) {
-              return t.error(r);
+      return function (t) {
+        e.then(
+          function (r) {
+            if (!t.closed) {
+              t.next(r);
+              t.complete();
             }
-          )
-          .then(null, s);
+          },
+          function (r) {
+            return t.error(r);
+          },
+        ).then(null, s);
         return t;
       };
     }
     if (t && typeof t[q] == 'function') {
       r = t;
-      return function(t) {
+      return function (t) {
         for (var e = r[q](); ; ) {
           var n = void 0;
           try {
@@ -1587,7 +1587,7 @@
           }
         }
         if (typeof e.return == 'function') {
-          t.add(function() {
+          t.add(function () {
             if (e.return) {
               e.return();
             }
@@ -1603,46 +1603,46 @@
     throw new TypeError(
       'You provided ' +
         i +
-        ' where a stream was expected. You can provide an Observable, Promise, Array, or Iterable.'
+        ' where a stream was expected. You can provide an Observable, Promise, Array, or Iterable.',
     );
   };
-  var X = (function() {
+  var X = (function () {
     function e(r) {
       var e = d.call(this) || this;
       e.parent = r;
       return e;
     }
     r(e, d);
-    e.prototype._next = function(t) {
+    e.prototype._next = function (t) {
       this.parent.notifyNext(t);
     };
-    e.prototype._error = function(t) {
+    e.prototype._error = function (t) {
       this.parent.notifyError(t);
       this.unsubscribe();
     };
-    e.prototype._complete = function() {
+    e.prototype._complete = function () {
       this.parent.notifyComplete();
       this.unsubscribe();
     };
     return e;
   })();
-  var Z = (function() {
+  var Z = (function () {
     function e() {
       return (d !== null && d.apply(this, arguments)) || this;
     }
     r(e, d);
-    e.prototype.notifyNext = function(t) {
+    e.prototype.notifyNext = function (t) {
       this.destination.next(t);
     };
-    e.prototype.notifyError = function(t) {
+    e.prototype.notifyError = function (t) {
       this.destination.error(t);
     };
-    e.prototype.notifyComplete = function() {
+    e.prototype.notifyComplete = function () {
       this.destination.complete();
     };
     return e;
   })();
-  var et = (function() {
+  var et = (function () {
     function t(t, r) {
       if (r === void 0) {
         r = Number.POSITIVE_INFINITY;
@@ -1650,12 +1650,12 @@
       this.project = t;
       this.concurrent = r;
     }
-    t.prototype.call = function(t, r) {
+    t.prototype.call = function (t, r) {
       return r.subscribe(new nt(t, this.project, this.concurrent));
     };
     return t;
   })();
-  var nt = (function() {
+  var nt = (function () {
     function e(r, e, n) {
       if (n === void 0) {
         n = Number.POSITIVE_INFINITY;
@@ -1670,14 +1670,14 @@
       return i;
     }
     r(e, Z);
-    e.prototype._next = function(t) {
+    e.prototype._next = function (t) {
       if (this.active < this.concurrent) {
         this._tryNext(t);
       } else {
         this.buffer.push(t);
       }
     };
-    e.prototype._tryNext = function(t) {
+    e.prototype._tryNext = function (t) {
       var r;
       var e = this.index++;
       try {
@@ -1689,7 +1689,7 @@
       this.active++;
       this._innerSub(r);
     };
-    e.prototype._innerSub = function(t) {
+    e.prototype._innerSub = function (t) {
       var r = new X(this);
       var e = this.destination;
       e.add(r);
@@ -1698,17 +1698,17 @@
         e.add(n);
       }
     };
-    e.prototype._complete = function() {
+    e.prototype._complete = function () {
       this.hasCompleted = true;
       if (this.active === 0 && this.buffer.length === 0) {
         this.destination.complete();
       }
       this.unsubscribe();
     };
-    e.prototype.notifyNext = function(t) {
+    e.prototype.notifyNext = function (t) {
       this.destination.next(t);
     };
-    e.prototype.notifyComplete = function() {
+    e.prototype.notifyComplete = function () {
       var t = this.buffer;
       this.active--;
       if (t.length > 0) {
@@ -1719,17 +1719,17 @@
     };
     return e;
   })();
-  var ct = (function() {
+  var ct = (function () {
     function t(t, r) {
       this.predicate = t;
       this.thisArg = r;
     }
-    t.prototype.call = function(t, r) {
+    t.prototype.call = function (t, r) {
       return r.subscribe(new ht(t, this.predicate, this.thisArg));
     };
     return t;
   })();
-  var ht = (function() {
+  var ht = (function () {
     function e(r, e, n) {
       var i = d.call(this, r) || this;
       i.predicate = e;
@@ -1738,7 +1738,7 @@
       return i;
     }
     r(e, d);
-    e.prototype._next = function(t) {
+    e.prototype._next = function (t) {
       var r;
       try {
         r = this.predicate.call(this.thisArg, t, this.count++);
@@ -1752,16 +1752,16 @@
     };
     return e;
   })();
-  var pt = (function() {
+  var pt = (function () {
     function t(t) {
       this.closingSelector = t;
     }
-    t.prototype.call = function(t, r) {
+    t.prototype.call = function (t, r) {
       return r.subscribe(new ft(t, this.closingSelector));
     };
     return t;
   })();
-  var ft = (function() {
+  var ft = (function () {
     function e(r, e) {
       var n = Z.call(this, r) || this;
       n.closingSelector = e;
@@ -1770,31 +1770,31 @@
       return n;
     }
     r(e, Z);
-    e.prototype._next = function(t) {
+    e.prototype._next = function (t) {
       this.buffer.push(t);
     };
-    e.prototype._complete = function() {
+    e.prototype._complete = function () {
       var r = this.buffer;
       if (r) {
         this.destination.next(r);
       }
       Z.prototype._complete.call(this);
     };
-    e.prototype._unsubscribe = function() {
+    e.prototype._unsubscribe = function () {
       this.buffer = void 0;
       this.subscribing = false;
     };
-    e.prototype.notifyNext = function() {
+    e.prototype.notifyNext = function () {
       this.openBuffer();
     };
-    e.prototype.notifyComplete = function() {
+    e.prototype.notifyComplete = function () {
       if (this.subscribing) {
         this.complete();
       } else {
         this.openBuffer();
       }
     };
-    e.prototype.openBuffer = function() {
+    e.prototype.openBuffer = function () {
       var t = this.closingSubscription;
       if (t) {
         this.remove(t);
@@ -1820,16 +1820,16 @@
     };
     return e;
   })();
-  var lt = (function() {
+  var lt = (function () {
     function t(t) {
       this.selector = t;
     }
-    t.prototype.call = function(t, r) {
+    t.prototype.call = function (t, r) {
       return r.subscribe(new dt(t, this.selector, this.caught));
     };
     return t;
   })();
-  var dt = (function() {
+  var dt = (function () {
     function e(r, e, n) {
       var i = Z.call(this, r) || this;
       i.selector = e;
@@ -1837,7 +1837,7 @@
       return i;
     }
     r(e, Z);
-    e.prototype.error = function(r) {
+    e.prototype.error = function (r) {
       if (!this.isStopped) {
         var e = void 0;
         try {
@@ -1857,16 +1857,16 @@
     };
     return e;
   })();
-  var bt = (function() {
+  var bt = (function () {
     function t(t) {
       this.project = t;
     }
-    t.prototype.call = function(t, r) {
+    t.prototype.call = function (t, r) {
       return r.subscribe(new yt(t, this.project));
     };
     return t;
   })();
-  var yt = (function() {
+  var yt = (function () {
     function e(r, e) {
       var n = Z.call(this, r) || this;
       n.project = e;
@@ -1876,12 +1876,12 @@
       return n;
     }
     r(e, Z);
-    e.prototype._next = function(t) {
+    e.prototype._next = function (t) {
       if (!this.hasSubscription) {
         this.tryNext(t);
       }
     };
-    e.prototype.tryNext = function(t) {
+    e.prototype.tryNext = function (t) {
       var r;
       var e = this.index++;
       try {
@@ -1893,7 +1893,7 @@
       this.hasSubscription = true;
       this._innerSub(r);
     };
-    e.prototype._innerSub = function(t) {
+    e.prototype._innerSub = function (t) {
       var r = new X(this);
       var e = this.destination;
       e.add(r);
@@ -1902,20 +1902,20 @@
         e.add(n);
       }
     };
-    e.prototype._complete = function() {
+    e.prototype._complete = function () {
       this.hasCompleted = true;
       if (!this.hasSubscription) {
         this.destination.complete();
       }
       this.unsubscribe();
     };
-    e.prototype.notifyNext = function(t) {
+    e.prototype.notifyNext = function (t) {
       this.destination.next(t);
     };
-    e.prototype.notifyError = function(t) {
+    e.prototype.notifyError = function (t) {
       this.destination.error(t);
     };
-    e.prototype.notifyComplete = function() {
+    e.prototype.notifyComplete = function () {
       this.hasSubscription = false;
       if (this.hasCompleted) {
         this.destination.complete();
@@ -1923,38 +1923,38 @@
     };
     return e;
   })();
-  var vt = (function() {
+  var vt = (function () {
     function t(t) {
       this.value = t;
     }
-    t.prototype.call = function(t, r) {
+    t.prototype.call = function (t, r) {
       return r.subscribe(new wt(t, this.value));
     };
     return t;
   })();
-  var wt = (function() {
+  var wt = (function () {
     function e(r, e) {
       var n = d.call(this, r) || this;
       n.value = e;
       return n;
     }
     r(e, d);
-    e.prototype._next = function(t) {
+    e.prototype._next = function (t) {
       this.destination.next(this.value);
     };
     return e;
   })();
-  var xt = (function() {
+  var xt = (function () {
     function t(t, r) {
       this.count = t;
       this.source = r;
     }
-    t.prototype.call = function(t, r) {
+    t.prototype.call = function (t, r) {
       return r.subscribe(new gt(t, this.count, this.source));
     };
     return t;
   })();
-  var gt = (function() {
+  var gt = (function () {
     function e(r, e, n) {
       var i = d.call(this, r) || this;
       i.count = e;
@@ -1962,7 +1962,7 @@
       return i;
     }
     r(e, d);
-    e.prototype.complete = function() {
+    e.prototype.complete = function () {
       if (!this.isStopped) {
         var r = this.source;
         var e = this.count;
@@ -1977,16 +1977,16 @@
     };
     return e;
   })();
-  var Et = (function() {
+  var Et = (function () {
     function t(t) {
       this.project = t;
     }
-    t.prototype.call = function(t, r) {
+    t.prototype.call = function (t, r) {
       return r.subscribe(new Ot(t, this.project));
     };
     return t;
   })();
-  var Ot = (function() {
+  var Ot = (function () {
     function e(r, e) {
       var n = Z.call(this, r) || this;
       n.project = e;
@@ -1994,7 +1994,7 @@
       return n;
     }
     r(e, Z);
-    e.prototype._next = function(t) {
+    e.prototype._next = function (t) {
       var r;
       var e = this.index++;
       try {
@@ -2005,7 +2005,7 @@
       }
       this._innerSub(r);
     };
-    e.prototype._innerSub = function(t) {
+    e.prototype._innerSub = function (t) {
       var r = this.innerSubscription;
       if (r) {
         r.unsubscribe();
@@ -2018,38 +2018,38 @@
         n.add(this.innerSubscription);
       }
     };
-    e.prototype._complete = function() {
+    e.prototype._complete = function () {
       var r = this.innerSubscription;
       if (!r || !!r.closed) {
         Z.prototype._complete.call(this);
       }
       this.unsubscribe();
     };
-    e.prototype._unsubscribe = function() {
+    e.prototype._unsubscribe = function () {
       this.innerSubscription = void 0;
     };
-    e.prototype.notifyComplete = function() {
+    e.prototype.notifyComplete = function () {
       this.innerSubscription = void 0;
       if (this.isStopped) {
         Z.prototype._complete.call(this);
       }
     };
-    e.prototype.notifyNext = function(t) {
+    e.prototype.notifyNext = function (t) {
       this.destination.next(t);
     };
     return e;
   })();
-  var jt = (function() {
+  var jt = (function () {
     function t(t, r) {
       this.predicate = t;
       this.inclusive = r;
     }
-    t.prototype.call = function(t, r) {
+    t.prototype.call = function (t, r) {
       return r.subscribe(new Pt(t, this.predicate, this.inclusive));
     };
     return t;
   })();
-  var Pt = (function() {
+  var Pt = (function () {
     function e(r, e, n) {
       var i = d.call(this, r) || this;
       i.predicate = e;
@@ -2058,7 +2058,7 @@
       return i;
     }
     r(e, d);
-    e.prototype._next = function(t) {
+    e.prototype._next = function (t) {
       var r;
       var e = this.destination;
       try {
@@ -2069,7 +2069,7 @@
       }
       this.nextOrComplete(t, r);
     };
-    e.prototype.nextOrComplete = function(t, r) {
+    e.prototype.nextOrComplete = function (t, r) {
       var e = this.destination;
       if (Boolean(r)) {
         e.next(t);
@@ -2082,20 +2082,20 @@
     };
     return e;
   })();
-  var Tt = (function() {
+  var Tt = (function () {
     function t(t, r, e) {
       this.nextOrObserver = t;
       this.error = r;
       this.complete = e;
     }
-    t.prototype.call = function(t, r) {
+    t.prototype.call = function (t, r) {
       return r.subscribe(
-        new It(t, this.nextOrObserver, this.error, this.complete)
+        new It(t, this.nextOrObserver, this.error, this.complete),
       );
     };
     return t;
   })();
-  var It = (function() {
+  var It = (function () {
     function e(r, e, i, o) {
       var s = d.call(this, r) || this;
       s._tapNext = F;
@@ -2115,7 +2115,7 @@
       return s;
     }
     r(e, d);
-    e.prototype._next = function(t) {
+    e.prototype._next = function (t) {
       try {
         this._tapNext.call(this._context, t);
       } catch (t) {
@@ -2124,7 +2124,7 @@
       }
       this.destination.next(t);
     };
-    e.prototype._error = function(t) {
+    e.prototype._error = function (t) {
       try {
         this._tapError.call(this._context, t);
       } catch (t) {
@@ -2133,7 +2133,7 @@
       }
       this.destination.error(t);
     };
-    e.prototype._complete = function() {
+    e.prototype._complete = function () {
       try {
         this._tapComplete.call(this._context);
       } catch (t) {
@@ -2144,17 +2144,17 @@
     };
     return e;
   })();
-  var At = (function() {
+  var At = (function () {
     function t(t, r) {
       this.observables = t;
       this.project = r;
     }
-    t.prototype.call = function(t, r) {
+    t.prototype.call = function (t, r) {
       return r.subscribe(new Ct(t, this.observables, this.project));
     };
     return t;
   })();
-  var Ct = (function() {
+  var Ct = (function () {
     function e(r, e, n) {
       var i = M.call(this, r) || this;
       i.observables = e;
@@ -2172,7 +2172,7 @@
       return i;
     }
     r(e, M);
-    e.prototype.notifyNext = function(t, r, e) {
+    e.prototype.notifyNext = function (t, r, e) {
       this.values[e] = r;
       var n = this.toRespond;
       if (n.length > 0) {
@@ -2182,8 +2182,8 @@
         }
       }
     };
-    e.prototype.notifyComplete = function() {};
-    e.prototype._next = function(t) {
+    e.prototype.notifyComplete = function () {};
+    e.prototype._next = function (t) {
       if (this.toRespond.length === 0) {
         var r = [t].concat(this.values);
         if (this.project) {
@@ -2193,7 +2193,7 @@
         }
       }
     };
-    e.prototype._tryProject = function(t) {
+    e.prototype._tryProject = function (t) {
       var r;
       try {
         r = this.project.apply(this, t);
@@ -2207,7 +2207,7 @@
   })();
   const Vt = (t, r, e = 'local') => chrome.storage[e].set({ [t]: r });
   const Ft = {
-    estimatedPrices: [99, 95, 90, 80, 70].map(t => ({
+    estimatedPrices: [99, 95, 90, 80, 70].map((t) => ({
       confidence: t,
       price: null,
       maxFeePerGas: null,
@@ -2234,30 +2234,30 @@
       if (!r || typeof r.schedule != 'function') {
         r = Y;
       }
-      return new _(function(e) {
+      return new _(function (e) {
         e.add(r.schedule(st, t, { subscriber: e, counter: 0, period: t }));
         return e;
       });
       var t;
       var r;
     }),
-    function(t) {
+    function (t) {
       return t.lift(new pt(Bt));
     }),
-    ut(t => t && t.length > 1),
+    ut((t) => t && t.length > 1),
     ((Ut = true),
-    function(t) {
+    function (t) {
       return t.lift(new vt(Ut));
-    })
+    }),
   ).subscribe(() => Vt('pollRate', 5e3));
-  const Mt = t => {
+  const Mt = (t) => {
     return kt(
       t
         ? 'https://api.blocknative.com/gasprices/blockprices'
         : 'https://blocknative-api.herokuapp.com/data',
-      { headers: { Authorization: t } }
+      { headers: { Authorization: t } },
     ).pipe(
-      St(t => {
+      St((t) => {
         if (t.ok) {
           return t.json();
         } else {
@@ -2270,52 +2270,51 @@
             ((r = () => {
               Rt.next();
             }),
-            function(t) {
+            function (t) {
               return t.lift(new Tt(r, e, n));
-            })
+            }),
           );
         }
         var r;
         var e;
         var n;
       }),
-      ((r = t => H({ error: true, message: t.message })),
-      function(t) {
+      ((r = (t) => H({ error: true, message: t.message })),
+      function (t) {
         var e = new lt(r);
         var n = t.lift(e);
         return (e.caught = n);
       }),
-      ut(t => !t.error),
-      R(
-        r =>
-          t
-            ? r.blockPrices[0]
-            : Object.assign(
-                {
-                  blockNumber: r.pendingBlockNumberVal,
-                  estimatedTransactionCount: r.estimatedTransactions,
-                },
-                r
-              )
-      )
+      ut((t) => !t.error),
+      R((r) =>
+        t
+          ? r.blockPrices[0]
+          : Object.assign(
+              {
+                blockNumber: r.pendingBlockNumberVal,
+                estimatedTransactionCount: r.estimatedTransactions,
+              },
+              r,
+            ),
+      ),
     );
     var r;
   };
   const Gt = (function t(r, e, i) {
     if (i) {
       return t(r, e).pipe(
-        R(function(t) {
+        R(function (t) {
           if (c(t)) {
             return i.apply(void 0, t);
           } else {
             return i(t);
           }
-        })
+        }),
       );
     } else {
-      return new _(function(t) {
+      return new _(function (t) {
         var i;
-        var o = function() {
+        var o = function () {
           var r = [];
           for (var e = 0; e < arguments.length; e++) {
             r[e] = arguments[e];
@@ -2329,18 +2328,18 @@
           return;
         }
         if (n(e)) {
-          return function() {
+          return function () {
             return e(o, i);
           };
         }
       });
     }
   })(
-    t => chrome.storage.onChanged.addListener(t),
-    t => chrome.storage.onChanged.removeListener(t)
+    (t) => chrome.storage.onChanged.addListener(t),
+    (t) => chrome.storage.onChanged.removeListener(t),
   ).pipe(_t('0'));
   const Lt = (t, r) =>
-    (function() {
+    (function () {
       var t = [];
       for (var r = 0; r < arguments.length; r++) {
         t[r] = arguments[r];
@@ -2362,14 +2361,17 @@
         return it(e)(D(t, n));
       }
     })(
-      new _(e => {
+      new _((e) => {
         chrome.storage.local.get({ [t]: r }, e.next.bind(e));
       }).pipe(_t(t)),
-      Gt.pipe(ut(r => t in r), _t(t, 'newValue'))
+      Gt.pipe(
+        ut((r) => t in r),
+        _t(t, 'newValue'),
+      ),
     );
   const qt = Lt('pollRate', 5e3).pipe(
-    St(t => {
-      return (function(t, r, e) {
+    St((t) => {
+      return (function (t, r, e) {
         if (t === void 0) {
           t = 0;
         }
@@ -2382,18 +2384,18 @@
         if (!C(e)) {
           e = Y;
         }
-        return new _(function(r) {
+        return new _(function (r) {
           var i = ot(t) ? t : +t - e.now();
           return e.schedule(at, i, { index: 0, period: n, subscriber: r });
         });
       })(0, t / 100).pipe(
-        ((e = t => t < 101),
+        ((e = (t) => t < 101),
         n === void 0 && (n = false),
-        function(t) {
+        function (t) {
           return t.lift(new jt(e, n));
         }),
         (r === void 0 && (r = -1),
-        function(t) {
+        function (t) {
           if (r === 0) {
             return A();
           } else if (r < 0) {
@@ -2401,12 +2403,12 @@
           } else {
             return t.lift(new xt(r - 1, t));
           }
-        })
+        }),
       );
       var r;
       var e;
       var n;
-    })
+    }),
   );
   Lt('progress', 0);
   const zt = Lt('eip1559', true);
@@ -2430,37 +2432,35 @@
       }
     }),
     _t('0'),
-    _t('price')
-  ).subscribe(t => Vt('badgeValue', t));
+    _t('price'),
+  ).subscribe((t) => Vt('badgeValue', t));
   const Qt = Lt('badgeValue', null);
   new j('');
-  qt.subscribe(t => Vt('progress', t));
-  qt
-    .pipe(
-      ut(t => t === 0),
-      Nt($t),
-      (function t(r, e) {
-        if (e) {
-          return function(n) {
-            return n.pipe(
-              t(function(t, n) {
-                return W(r(t, n)).pipe(
-                  R(function(r, i) {
-                    return e(t, r, n, i);
-                  })
-                );
-              })
-            );
-          };
-        } else {
-          return function(t) {
-            return t.lift(new bt(r));
-          };
-        }
-      })(([, t]) => Mt(t))
-    )
-    .subscribe(t => Vt('gasPrices', t));
-  Qt.pipe(ut(t => !!t)).subscribe(t =>
-    chrome.browserAction.setBadgeText({ text: `${t}` })
+  qt.subscribe((t) => Vt('progress', t));
+  qt.pipe(
+    ut((t) => t === 0),
+    Nt($t),
+    (function t(r, e) {
+      if (e) {
+        return function (n) {
+          return n.pipe(
+            t(function (t, n) {
+              return W(r(t, n)).pipe(
+                R(function (r, i) {
+                  return e(t, r, n, i);
+                }),
+              );
+            }),
+          );
+        };
+      } else {
+        return function (t) {
+          return t.lift(new bt(r));
+        };
+      }
+    })(([, t]) => Mt(t)),
+  ).subscribe((t) => Vt('gasPrices', t));
+  Qt.pipe(ut((t) => !!t)).subscribe((t) =>
+    chrome.browserAction.setBadgeText({ text: `${t}` }),
   );
 })();
